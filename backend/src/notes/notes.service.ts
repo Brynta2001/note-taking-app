@@ -11,6 +11,8 @@ import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { Note } from './entities/note.entity';
 import { QueryParamsNoteDto } from './dto/query-params-note.dto';
+import { CategoriesService } from '../categories/categories.service';
+import { Category } from 'src/categories/entities/category.entity';
 
 @Injectable()
 export class NotesService {
@@ -19,11 +21,21 @@ export class NotesService {
   constructor(
     @InjectRepository(Note)
     private readonly notesRepository: Repository<Note>,
+    private readonly categoriesService: CategoriesService,
   ) {}
 
   async create(createNoteDto: CreateNoteDto) {
     try {
-      const note = this.notesRepository.create(createNoteDto);
+      const { categoryId, ...detailsNoteDto } = createNoteDto;
+      const noteDto = { ...detailsNoteDto, category: null };
+
+      if (categoryId) {
+        const category = await this.categoriesService.findOne(categoryId);
+        noteDto.category = category;
+      }
+
+      const note = this.notesRepository.create(noteDto);
+
       return await this.notesRepository.save(note);
     } catch (error) {
       this.handleDBExceptions(error);
@@ -31,13 +43,19 @@ export class NotesService {
   }
 
   async findAll(queryParamsNoteDto: QueryParamsNoteDto) {
-    const { archived } = queryParamsNoteDto;
-    if (archived) {
-      return this.notesRepository.find({
-        where: { archived: archived },
-      });
+    const { archived = false, category } = queryParamsNoteDto;
+    if (!category) {
+      return this.notesRepository.find({ where: { archived } });
     }
-    return await this.notesRepository.find();
+
+    const queryBuilder = this.notesRepository.createQueryBuilder('note');
+    const notes = await queryBuilder
+      .leftJoinAndSelect('note.category', 'category')
+      .where('note.archived = :archived', { archived })
+      .andWhere('category.name = :name', { name: category })
+      .getMany();
+
+    return notes;
   }
 
   async findOne(id: number) {
@@ -49,9 +67,17 @@ export class NotesService {
   }
 
   async update(id: number, updateNoteDto: UpdateNoteDto) {
+    const { categoryId, ...detailsNoteDto } = updateNoteDto;
+    let category: Category;
+
+    if (categoryId) {
+      category = await this.categoriesService.findOne(categoryId);
+    }
+
     const note = await this.notesRepository.preload({
       id,
-      ...updateNoteDto,
+      ...detailsNoteDto,
+      category,
     });
 
     if (!note) {
@@ -67,7 +93,8 @@ export class NotesService {
 
   async remove(id: number) {
     const note = await this.findOne(id);
-    return await this.notesRepository.remove(note);
+    await this.notesRepository.remove(note);
+    return note;
   }
 
   private handleDBExceptions(error: any) {

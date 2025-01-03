@@ -1,4 +1,11 @@
-import { IsBoolean, IsOptional, IsString, MinLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsInt,
+  IsOptional,
+  IsPositive,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 export class CreateNoteDto {
   @IsString()
@@ -12,4 +19,9 @@ export class CreateNoteDto {
   @IsBoolean()
   @IsOptional()
   archived?: boolean;
+
+  @IsInt()
+  @IsOptional()
+  @IsPositive()
+  categoryId?: number;
 }

@@ -1,7 +1,9 @@
+import { Category } from 'src/categories/entities/category.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -19,6 +21,12 @@ export class Note {
 
   @Column('boolean', { default: false })
   archived: boolean;
+
+  @ManyToOne(() => Category, (category) => category.id, {
+    nullable: true,
+    eager: true,
+  })
+  category: Category;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
