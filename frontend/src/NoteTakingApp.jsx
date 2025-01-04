@@ -1,7 +1,5 @@
+import { AppRouter } from './router/AppRouter';
 
 export const NoteTakingApp = () => {
-  return (
-    <div>NoteTakingApp</div>
-  )
-}
-
+  return <AppRouter />;
+};
