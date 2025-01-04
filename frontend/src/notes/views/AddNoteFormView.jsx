@@ -34,8 +34,8 @@ export const AddNoteFormView = () => {
   });
   const navigate = useNavigate();
 
-  const onSubmit = (values) => {
-    createNote(values);
+  const onSubmit = async (values) => {
+    await createNote(values);
     navigate('/notes');
   };
 
