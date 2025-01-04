@@ -7,8 +7,8 @@ export const NotesRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<NotesPage />} />
-      <Route path="create" element={<AddNotesPage />} />
-      <Route path="edit/:id" element={<EditNotesPage />} />
+      <Route path="/create" element={<AddNotesPage />} />
+      <Route path="/edit/:id" element={<EditNotesPage />} />
 
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>

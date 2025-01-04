@@ -1,3 +1,4 @@
+import { AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -17,11 +18,19 @@ import { format, parseISO } from 'date-fns';
 import { Archive, Clock, MoreHorizontal, Pencil, Trash } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
+import { DeleteAlertDialog } from './DeleteAlertDialog';
 
-export const NoteCard = ({ id, title, description, createdAt, updatedAt }) => {
+export const NoteCard = ({
+  id,
+  title,
+  description,
+  createdAt,
+  updatedAt,
+  onNoteDelete,
+}) => {
   const navigate = useNavigate();
   const onEdit = () => {
-    navigate(`/edit/${id}`);
+    navigate(`/notes/edit/${id}`);
   };
 
   return (
@@ -35,20 +44,26 @@ export const NoteCard = ({ id, title, description, createdAt, updatedAt }) => {
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={onEdit}>
-              <Pencil className="mr-2 h-4 w-4" />
-              <span>Edit</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => {}}>
-              <Trash className="mr-2 h-4 w-4" />
-              <span>Delete</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => {}}>
-              <Archive className="mr-2 h-4 w-4" />
-              <span>Archive</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
+          <DeleteAlertDialog id={id} onNoteDelete={onNoteDelete}>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={onEdit}>
+                <Pencil className="mr-2 h-4 w-4" />
+                <span>Edit</span>
+              </DropdownMenuItem>
+
+              <AlertDialogTrigger asChild>
+                <DropdownMenuItem>
+                  <Trash className="mr-2 h-4 w-4" />
+                  <span>Delete</span>
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
+
+              <DropdownMenuItem onClick={() => {}}>
+                <Archive className="mr-2 h-4 w-4" />
+                <span>Archive</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DeleteAlertDialog>
         </DropdownMenu>
       </CardHeader>
 
@@ -75,4 +90,5 @@ NoteCard.propTypes = {
   description: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   updatedAt: PropTypes.string.isRequired,
+  onNoteDelete: PropTypes.func.isRequired,
 };
