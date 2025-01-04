@@ -1,8 +1,8 @@
 {
   "name": "note-taking-backend",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "This is a simple note taking API that allows to add, edit and deleto notes and their categories.",
+  "author": "Bryan Tapia",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
