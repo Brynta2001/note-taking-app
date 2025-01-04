@@ -8,6 +8,7 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { Archive, Home, Tag } from 'lucide-react';
+import { Link } from 'react-router';
 
 export const SideBar = () => {
   return (
@@ -21,17 +22,19 @@ export const SideBar = () => {
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton>
-                <Home />
-                Home
+              <Link to={'/'}>
+                <SidebarMenuButton className="text-1xl my-2">
+                  <Home className="mr-2 h-4 w-4" />
+                  <span>Home</span>
+                </SidebarMenuButton>
+              </Link>
+              <SidebarMenuButton className="text-1xl my-2">
+                <Tag className="mr-2 h-4 w-4" />
+                <span>Categories</span>
               </SidebarMenuButton>
-              <SidebarMenuButton>
-                <Tag />
-                Categories
-              </SidebarMenuButton>
-              <SidebarMenuButton>
-                <Archive />
-                Archive
+              <SidebarMenuButton className="text-1xl my-2">
+                <Archive className="mr-2 h-4 w-4" />
+                <span>Archive</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

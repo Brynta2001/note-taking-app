@@ -1,10 +1,11 @@
 import { NotesRoutes } from '@/notes/routes/NotesRoutes';
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 
 export const AppRouter = () => {
   return (
     <Routes>
-      <Route path="/*" element={<NotesRoutes />} />
+      <Route path="notes/*" element={<NotesRoutes />} />
+      <Route path="/" element={<Navigate to={'notes'} />} />
     </Routes>
   );
 };
