@@ -1,23 +1,16 @@
-import { Button } from '@/components/ui/button';
 import { NotesLayout } from '../layout/NotesLayout';
-import { NotesView } from '../views/NotesView';
-import { Link } from 'react-router';
-import { Plus } from 'lucide-react';
+import queryString from 'query-string';
+import { ActiveNotesView } from '../views/ActiveNotesView';
+import { ArchivedNotesView } from '../views/ArchivedNotesView';
+import { useLocation } from 'react-router';
 
 export const NotesPage = () => {
+  const location = useLocation();
+  const { archived = false } = queryString.parse(location.search);
+
   return (
     <NotesLayout>
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-3xl font-semibold">List of notes</h1>
-        <Button asChild>
-          <Link to="/notes/create">
-            <Plus className="h-6 w-6" />
-            Add Note
-          </Link>
-        </Button>
-      </div>
-
-      <NotesView />
+      {!archived ? <ActiveNotesView /> : <ArchivedNotesView />}
     </NotesLayout>
   );
 };

@@ -1,7 +1,7 @@
 import { axiosInstance } from './apiClient';
 
-export const getAllNotes = async () => {
-  const response = await axiosInstance.get('/notes');
+export const getAllNotes = async (archived = false) => {
+  const response = await axiosInstance.get(`/notes?archived=${archived}`);
   return response.data.data;
 };
 

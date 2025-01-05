@@ -26,11 +26,17 @@ export const NoteCard = ({
   description,
   createdAt,
   updatedAt,
+  archived,
   onNoteDelete,
+  onNoteArchive,
 }) => {
   const navigate = useNavigate();
   const onEdit = () => {
     navigate(`/notes/edit/${id}`);
+  };
+
+  const onArchive = () => {
+    onNoteArchive(id, !archived);
   };
 
   return (
@@ -58,9 +64,11 @@ export const NoteCard = ({
                 </DropdownMenuItem>
               </AlertDialogTrigger>
 
-              <DropdownMenuItem onClick={() => {}}>
+              <DropdownMenuItem onClick={onArchive}>
                 <Archive className="mr-2 h-4 w-4" />
-                <span>Archive</span>
+                <span>
+                  {archived ? 'Unarchive' : 'Archive'}
+                </span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DeleteAlertDialog>
@@ -90,5 +98,7 @@ NoteCard.propTypes = {
   description: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   updatedAt: PropTypes.string.isRequired,
+  archived: PropTypes.bool.isRequired,
   onNoteDelete: PropTypes.func.isRequired,
+  onNoteArchive: PropTypes.func.isRequired,
 };
