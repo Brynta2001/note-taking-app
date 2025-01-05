@@ -43,7 +43,7 @@ To get detailed information about the endpoints and how to use them, visit `http
 
 ## Starting the entire app using an script
 
-You can start the entire app using the `start` script in the root directory. This script will start the PostgreSQL database, the backend server, and the frontend server.
+You can start the entire app using the `start` script in the root directory. This script will start the PostgreSQL database, the backend server, and the frontend server. Also, you have to set the environment variables in the `.env` files before running the script.
 
 You need to give the script execution permissions by running `chmod +x start.sh` in the root directory.
 
