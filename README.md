@@ -41,6 +41,14 @@ The backend server will be running on `http://localhost:3000`.
 
 To get detailed information about the endpoints and how to use them, visit `http://localhost:3000/api`.
 
+## Starting the entire app using an script
+
+You can start the entire app using the `start` script in the root directory. This script will start the PostgreSQL database, the backend server, and the frontend server.
+
+You need to give the script execution permissions by running `chmod +x start.sh` in the root directory.
+
+After that, you can run the script by running `./start.sh` in the root directory.
+
 ## Documentation
 
 Every project, backend and frontend, has its own README file with detailed information about the project. You can find them in the `backend` and `frontend` directories.
