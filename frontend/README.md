@@ -4,6 +4,8 @@ This is the frontend of the Note Taking App. It is built using ReactJS.
 
 ## Technologies
 
+- Node.js v20
+- Yarn v1.22.22
 - React v18.3.1
 - React Router v7.1.1
 - Axios v1.7.9
